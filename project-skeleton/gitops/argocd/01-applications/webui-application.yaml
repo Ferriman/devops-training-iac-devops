@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: webui
+  namespace: argocd
+spec:
+  project: training-project
+  source:
+    repoURL: https://github.com/Ferriman/devops-training-iac-devops.git
+    targetRevision: HEAD
+    path: project-skeleton/k8s/04-apps
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: apps
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

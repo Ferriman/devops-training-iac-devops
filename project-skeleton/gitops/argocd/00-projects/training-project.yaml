@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: training-project
+  namespace: argocd
+spec:
+  description: Proyecto GitOps del stack de formacion
+  sourceRepos:
+    - https://github.com/Ferriman/devops-training-iac-devops.git
+    - https://charts.bitnami.com/bitnami
+  destinations:
+    - namespace: database
+      server: https://kubernetes.default.svc
+    - namespace: apps
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'

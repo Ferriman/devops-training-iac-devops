@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: backend-java
+  namespace: apps
+spec:
+  serviceName: backend-java-headless
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-java
+  template:
+    metadata:
+      labels:
+        app: backend-java
+    spec:
+      containers:
+        - name: backend-java
+          image: docker.io/training/backend-java:1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
