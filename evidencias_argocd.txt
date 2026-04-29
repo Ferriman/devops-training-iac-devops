@@ -1,0 +1,77 @@
+=== kubectl get pods -n argocd ===
+NAME                                                READY   STATUS             RESTARTS        AGE
+argocd-application-controller-0                     1/1     Running            0               18m
+argocd-applicationset-controller-654f78b44f-cgbjb   0/1     CrashLoopBackOff   5 (2m22s ago)   18m
+argocd-dex-server-bcf7845fd-2h4xq                   1/1     Running            0               18m
+argocd-notifications-controller-5f944c679b-zzlxc    1/1     Running            0               18m
+argocd-redis-6879554f69-r2ms5                       1/1     Running            0               18m
+argocd-repo-server-6b55bbdbd8-vcdrx                 1/1     Running            0               18m
+argocd-server-6b6b48974f-jmf8z                      1/1     Running            0               18m
+
+=== kubectl get applications -n argocd ===
+NAME       SYNC STATUS   HEALTH STATUS
+apps       Synced        Healthy
+database   Synced        Healthy
+ddl-job    Synced        Healthy
+
+=== kubectl get appprojects -n argocd ===
+NAME               AGE
+default            16m
+training-project   13m
+
+=== kubectl get all -n database ===
+NAME                            READY   STATUS      RESTARTS   AGE
+pod/ddl-job-2sbdt               0/1     Completed   0          23h
+pod/postgres-5858b97576-rpdxk   1/1     Running     0          23h
+
+NAME                             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+service/postgres                 ClusterIP   10.43.89.226    <none>        5432/TCP   23h
+service/training-postgresql      ClusterIP   10.43.100.233   <none>        5432/TCP   8m13s
+service/training-postgresql-hl   ClusterIP   None            <none>        5432/TCP   8m13s
+
+NAME                       READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/postgres   1/1     1            1           23h
+
+NAME                                  DESIRED   CURRENT   READY   AGE
+replicaset.apps/postgres-5858b97576   1         1         1       23h
+
+NAME                STATUS     COMPLETIONS   DURATION   AGE
+job.batch/ddl-job   Complete   1/1           3s         23h
+
+=== kubectl get all -n apps ===
+NAME                                  READY   STATUS    RESTARTS   AGE
+pod/backend-java-0                    1/1     Running   0          23h
+pod/backend-python-6b75987d68-7m87n   1/1     Running   0          23h
+pod/webui-7dc9d864f7-5rhj9            1/1     Running   0          23h
+
+NAME                            TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+service/backend-java            ClusterIP   10.43.140.192   <none>        8080/TCP   23h
+service/backend-java-headless   ClusterIP   None            <none>        8080/TCP   23h
+service/backend-python          ClusterIP   10.43.32.110    <none>        5000/TCP   23h
+service/webui                   ClusterIP   10.43.50.34     <none>        80/TCP     23h
+
+NAME                             READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/backend-python   1/1     1            1           23h
+deployment.apps/webui            1/1     1            1           23h
+
+NAME                                        DESIRED   CURRENT   READY   AGE
+replicaset.apps/backend-python-6b75987d68   1         1         1       23h
+replicaset.apps/backend-python-7c5b6dd68c   0         0         0       23h
+replicaset.apps/webui-647b68c9d4            0         0         0       23h
+replicaset.apps/webui-7dc9d864f7            1         1         1       23h
+
+NAME                            READY   AGE
+statefulset.apps/backend-java   1/1     23h
+
+=== helm lint ===
+==> Linting project-skeleton/gitops/helm/training-stack
+[INFO] Chart.yaml: icon is recommended
+
+1 chart(s) linted, 0 chart(s) failed
+
+=== git log ===
+5a897e9 feat: consolidar apps en una sola Application ArgoCD
+a89ad66 feat: añadir estructura GitOps ArgoCD y chart Helm práctica 4
+a9ef2c2 feat: añadir pipeline Azure DevOps para Python
+d50c4e9 Merge branch 'feat/base' into develop
+dcd6ce7 final solution
