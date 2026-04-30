@@ -1,0 +1,3 @@
+---
+- name: Recargar Nginx
+  command: nginx -s reload

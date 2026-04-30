@@ -1,0 +1,3 @@
+app_host: app
+app_port: 8080
+db_host: db

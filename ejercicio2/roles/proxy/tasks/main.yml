@@ -1,0 +1,12 @@
+---
+- name: Desplegar configuracion de Nginx
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    mode: '0644'
+  notify: Recargar Nginx
+
+- name: Verificar que Nginx responde en puerto 80
+  uri:
+    url: http://localhost:80
+    status_code: 200

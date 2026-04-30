@@ -1,0 +1,11 @@
+---
+- name: Verificar conectividad
+  ping:
+
+- name: Crear fichero /etc/motd
+  copy:
+    content: "Configurado con Ansible - Módulo 4\n"
+    dest: /etc/motd
+
+- name: Registrar fecha de despliegue en log
+  shell: echo "$(date '+%Y-%m-%d %H:%M:%S') - Despliegue Ansible completado" >> /var/log/ansible_deploy.log

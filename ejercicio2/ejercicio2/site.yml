@@ -1,0 +1,20 @@
+---
+- name: Configuracion comun en todos los hosts
+  hosts: all
+  roles:
+    - common
+
+- name: Configurar base de datos
+  hosts: database
+  roles:
+    - database
+
+- name: Configurar aplicacion
+  hosts: app
+  roles:
+    - app
+
+- name: Configurar proxy
+  hosts: proxy
+  roles:
+    - proxy

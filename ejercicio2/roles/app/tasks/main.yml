@@ -1,0 +1,30 @@
+---
+- name: Crear directorio /app
+  file:
+    path: /app
+    state: directory
+    mode: '0755'
+
+- name: Copiar index.html
+  copy:
+    content: |
+      <html>
+        <body>
+          <h1>Aplicacion activa</h1>
+          <p>Base de datos: {{ db_host }}</p>
+        </body>
+      </html>
+    dest: /app/index.html
+
+- name: Desplegar script de arranque
+  template:
+    src: start.sh.j2
+    dest: /app/start.sh
+    mode: '0755'
+
+- name: Lanzar servidor HTTP en segundo plano
+  shell: nohup python3 -m http.server {{ app_port }} --directory /app &
+  args:
+    chdir: /app
+  async: 10
+  poll: 0

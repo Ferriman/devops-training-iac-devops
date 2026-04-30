@@ -1,0 +1,22 @@
+---
+- name: Verificar que PostgreSQL está activo
+  command: pg_isready -U {{ vault_db_user }}
+  register: pg_status
+  changed_when: false
+
+- name: Crear base de datos
+  community.postgresql.postgresql_db:
+    name: "{{ vault_db_name }}"
+    state: present
+  become: true
+  become_user: postgres
+
+- name: Crear usuario de aplicación
+  community.postgresql.postgresql_user:
+    name: "{{ vault_db_user }}"
+    password: "{{ vault_db_password }}"
+    db: "{{ vault_db_name }}"
+    priv: ALL
+    state: present
+  become: true
+  become_user: postgres
